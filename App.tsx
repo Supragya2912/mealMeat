@@ -1,31 +1,23 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import BottomNavigation from './src/components/BottomNavigation';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
 
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+const App = () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="BottomNavigation"
+        screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}>
+        <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
-
+};
 
 export default App;
