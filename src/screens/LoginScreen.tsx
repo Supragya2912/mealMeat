@@ -14,7 +14,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 const LoginScreen: React.FC<Props> = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Meal Meat</Text>
+      <Text style={styles.title}>Meal Mate</Text>
       <View style={styles.subtitleContainer}>
         <Text style={styles.subtitle}>Login for tasty treats</Text>
       </View>
