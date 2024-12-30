@@ -2,18 +2,23 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigation from './src/components/BottomNavigation';
+import LoginScreen from './src/screens/LoginScreen';
+import Register from './src/screens/Register';
+import { RootStackParamList } from './src/types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="BottomNavigation"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
         }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
