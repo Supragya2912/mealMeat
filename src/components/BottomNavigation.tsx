@@ -20,7 +20,7 @@ const getTabBarIcon = ({ route, focused, size, color }: TabBarIconProps) => {
     let iconName: string;
 
     switch (route.name) {
-        case 'Home':
+        case 'HomeScreen':
             iconName = focused ? 'home' : 'home-outline';
             break;
         case 'Dining':
@@ -52,14 +52,13 @@ const BottomNavigation = () => {
                 tabBarStyle: {
                     height: 60,
                     backgroundColor: '#0e1111',
-                    borderTopWidth: 2,
                     elevation: 5,
                     shadowColor: '#000',
                     shadowOffset: { width: 0, height: 3 },
                     shadowOpacity: 0.25,
                     shadowRadius: 4,
                   },
-                  tabBarLabelStyle: {
+                  tabBarLabelStyle: { 
                     fontSize: 12,
                     fontWeight: 'bold',
                     marginBottom: 5,
@@ -67,7 +66,7 @@ const BottomNavigation = () => {
             })}
         >
             <Tab.Screen
-                name="Home"
+                name="HomeScreen"
                 component={HomeScreen}
                 options={{ headerShown: false }}
             />
