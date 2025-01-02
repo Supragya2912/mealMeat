@@ -18,6 +18,7 @@ import {ReduceMotion} from 'react-native-reanimated';
 import {Tab} from '@rneui/themed';
 import Recommended from '../components/Recommended';
 import RestaurantCard from '../components/RestaurantCard';
+import SavedAddressCard from '../components/SavedAddressCard';
 
 type HomeScreenProps = {
   navigation: StackNavigationProp;
@@ -35,6 +36,7 @@ interface Restaurant {
   ratings: number;
   time: string;
   distance: string;
+  description?: string;
   offer: string;
 }
 
@@ -51,6 +53,7 @@ const restaurantData: Restaurant[] = [
     time: '30-40 min',
     distance: '2.3 km',
     offer: '20% off | Use code: BIRYANI20',
+    description: 'Biryani, North Indian, Mughlai, Kebabs',
   },
   {
     id: 2,
@@ -64,6 +67,7 @@ const restaurantData: Restaurant[] = [
     time: '20-30 min',
     distance: '1.5 km',
     offer: '15% off | Use code: PIZZA15',
+    description: 'Pizza, Fast Food, Beverages',
   },
   {
     id: 3,
@@ -77,6 +81,7 @@ const restaurantData: Restaurant[] = [
     time: '25-35 min',
     distance: '3.0 km',
     offer: '10% off | Use code: BURGER10',
+    description: 'Burgers, Fast Food, Beverages',
   },
   {
     id: 4,
@@ -90,6 +95,7 @@ const restaurantData: Restaurant[] = [
     time: '15-25 min',
     distance: '2.0 km',
     offer: '25% off | Use code: SUBWAY25',
+    description: 'Sandwiches, Fast Food, Beverages',
   },
   {
     id: 5,
@@ -103,6 +109,7 @@ const restaurantData: Restaurant[] = [
     time: '20-30 min',
     distance: '1.8 km',
     offer: '20% off | Use code: KFC20',
+    description: 'Fried Chicken, Fast Food, Beverages',
   },
   {
     id: 6,
@@ -116,6 +123,7 @@ const restaurantData: Restaurant[] = [
     time: '30-40 min',
     distance: '2.5 km',
     offer: '30% off | Use code: DOMINOS30',
+    description: 'Pizza, Fast Food, Beverages',
   },
   {
     id: 7,
@@ -129,6 +137,7 @@ const restaurantData: Restaurant[] = [
     time: '25-35 min',
     distance: '3.2 km',
     offer: '10% off | Use code: TACO10',
+    description: 'Mexican, Fast Food, Beverages',
   },
   {
     id: 8,
@@ -142,6 +151,7 @@ const restaurantData: Restaurant[] = [
     time: '20-30 min',
     distance: '2.8 km',
     offer: '15% off | Use code: MCD15',
+    description: 'Burgers, Fast Food, Beverages',
   },
   {
     id: 9,
@@ -155,6 +165,7 @@ const restaurantData: Restaurant[] = [
     time: '10-20 min',
     distance: '1.2 km',
     offer: '5% off | Use code: STARBUCKS5',
+    description: 'Coffee, Beverages, Fast Food',
   },
   {
     id: 10,
@@ -168,6 +179,7 @@ const restaurantData: Restaurant[] = [
     time: '15-25 min',
     distance: '2.1 km',
     offer: '20% off | Use code: DUNKIN20',
+    description: 'Donuts, Beverages, Fast Food',
   },
 ];
 
@@ -182,10 +194,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const toggleBottomSheet = () => {
     setSheetIndex(prev => (prev === 0 ? -1 : 0));
   };
-
-  // const renderItem = ({item}: {item: Restaurant}) => (
-  //   <RestaurantCard restaurant={item} />
-  // );
 
   const getToken = useCallback(async () => {
     const token = await AsyncStorage.getItem('authToken');
@@ -243,7 +251,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                   <Icon
                     name="star"
                     size={25}
-                    color="red"
+                    color={tabIndex === 0 ? 'red' : 'white'}
                     style={styles.starIcon}
                   />
                 }
@@ -252,7 +260,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 title="Collection"
                 titleStyle={styles.tabItem}
                 iconPosition="left"
-                icon={<Icon name="bookmark" size={25} color="red" />}
+                icon={
+                  <Icon
+                    name="bookmark"
+                    size={25}
+                    color={tabIndex === 1 ? 'red' : 'white'}
+                  />
+                }
               />
             </Tab>
           </View>
@@ -262,22 +276,46 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 <Recommended />
               </View>
             ) : (
-              <View>
-                <Text>Collection</Text>
+              <View style={styles.collectionContainer}>
+                <TouchableOpacity>
+                  <View style={styles.bookmarkContainer}>
+                    <View style={styles.bookmarkIcon}>
+                      <Icon name="share" size={25} color="white" />
+                    </View>
+                    <Text style={styles.bookMarkText}>Bookmarks</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <View style={styles.addCollection}>
+                    <View style={styles.bookmarkIcon}>
+                      <Icon name="add" size={25} color="white" />
+                    </View>
+                    <Text style={styles.bookMarkText}>Create Collection</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <View style={styles.goToContainer}>
+                    <View style={styles.bookmarkIcon}>
+                      <Icon name="chevron-forward" size={25} color="white" />
+                    </View>
+                    <Text style={styles.goToCollection}>Go to Collection</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             )}
           </View>
           <View style={styles.sectionTwo}>
             <Text style={styles.restaurantText}>All Restaurants</Text>
-            <Text style={styles.restaurantSubtitle}>10 restaurant delivering near you</Text>
+            <Text style={styles.restaurantSubtitle}>
+              10 restaurant delivering near you
+            </Text>
             <View>
-            <FlatList
-              data={filteredRestaurants}
-              renderItem={({item}) => <RestaurantCard restaurant={item} />}
-              keyExtractor={item => item.id.toString()}
-              showsVerticalScrollIndicator={false}
-            />
-
+              <FlatList
+                data={filteredRestaurants}
+                renderItem={({item}) => <RestaurantCard restaurant={item} />}
+                keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+              />
             </View>
           </View>
         </ScrollView>
@@ -287,15 +325,35 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         onChange={index => setSheetIndex(index)}
         handleIndicatorStyle={styles.indicatorStyle}
         backgroundStyle={styles.backgroundStyle}
-        snapPoints={['25%', '50%']}
+        snapPoints={['100%']}
         enablePanDownToClose={true}
         ref={bottomSheetRef}
         animationConfigs={bottomSheetAnimationConfig}>
         <BottomSheetView style={styles.bottomSheetContainer}>
-          <Text style={styles.bottomSheetHeader}>Select your address</Text>
-          <TouchableOpacity style={styles.bottomSheetItem}>
-            <Text style={styles.bottomSheetText}>Rohini West</Text>
-          </TouchableOpacity>
+          <View style={styles.titleBottomSheet}>
+            <TouchableOpacity
+              onPress={() => bottomSheetRef.current?.close()}
+              style={styles.touchableContainer}>
+              <Text style={styles.bottomSheetHeader}>Select your address</Text>
+              <Icon name="caret-down" size={25} color="white" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.divider} />
+          <View>
+            <Text style={styles.restaurantText}>Saved Address</Text>
+          </View>
+          <SavedAddressCard
+            address={
+              'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi'
+            }
+            phone='+91 9876543210'
+            onEdit={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            onDelete={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
           <TouchableOpacity style={styles.addAddress}>
             <Text style={styles.bottomSheetText}>+ Add New Address</Text>
           </TouchableOpacity>
@@ -330,6 +388,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
   },
+  bookmarkIcon: {
+    padding: 5,
+    borderRadius: 50,
+    position: 'absolute',
+    top: 20,
+    left: 40,
+  },
   tab: {
     backgroundColor: '#1c2833',
     borderRadius: 10,
@@ -349,7 +414,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   backgroundStyle: {
-    backgroundColor: '#9A2A2A',
+    backgroundColor: '#1c2833',
   },
   locationText: {
     color: '#fff',
@@ -374,20 +439,13 @@ const styles = StyleSheet.create({
   },
   bottomSheetContainer: {
     flex: 1,
-    backgroundColor: '#9A2A2A',
+    backgroundColor: '#1c2833',
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  bottomSheetHeader: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 20,
-  },
   bottomSheetItem: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginBottom: 10,
-    alignItems: 'center',
     borderRadius: 10,
     backgroundColor: 'black',
     paddingHorizontal: 20,
@@ -431,12 +489,64 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: 'gray',
   },
-  restaurantSubtitle :{
+  restaurantSubtitle: {
     fontSize: 16,
     color: 'gray',
     alignSelf: 'center',
     marginVertical: 10,
-  }
+  },
+  bookmarkContainer: {
+    backgroundColor: '#EA4C46',
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: 'flex-end',
+    height: 100,
+    width: 140,
+  },
+  collectionContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  addCollection: {
+    backgroundColor: '#1c2833',
+    padding: 10,
+    borderRadius: 10,
+    height: 100,
+    width: 140,
+    justifyContent: 'flex-end',
+  },
+  bookMarkText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  goToCollection: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  touchableContainer: {
+    flexDirection: 'row', // Align Text and Icon in a row
+    alignItems: 'center', // Vertically align Text and Icon
+  },
+  bottomSheetHeader: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginRight: 8, // Add spacing between the text and icon
+  },
+  goToContainer: {
+    backgroundColor: '#17202a',
+    padding: 10,
+    borderRadius: 10,
+    height: 100,
+    width: 140,
+    justifyContent: 'flex-end',
+  },
+  titleBottomSheet: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
 });
 
 export default HomeScreen;

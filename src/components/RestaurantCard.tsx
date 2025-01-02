@@ -1,3 +1,4 @@
+import {Divider} from '@rneui/base';
 import React from 'react';
 import {
   View,
@@ -13,9 +14,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 interface Restaurant {
   id: number;
   title: string;
-  //   image: string[];
   ratings: number;
   time: string;
+  description?: string;
   distance: string;
   offer: string;
 }
@@ -77,59 +78,67 @@ const data = [
   },
 ];
 const RestaurantCard: React.FC<RestaurantCardProps> = ({restaurant}) => {
-  console.log('restaurant', restaurant);
   return (
-    <View style={styles.item}>
-      <ImageBackground source={data[0].image} style={styles.image}>
-        <View style={styles.timeBg}>
+    <TouchableOpacity>
+      <View style={styles.item}>
+        <ImageBackground source={data[0].image} style={styles.image}>
+          <View style={styles.timeBg}>
             <Icon name="clock-o" color={'green'} size={16} />
-            <Text style={styles.subtitle}>  </Text>
-          <Text style={styles.subtitle}>{restaurant.time}</Text>
-          <Text style={styles.subtitle}> | </Text>
-          <Text style={styles.subtitle}>{restaurant.distance}</Text>
+            <Text style={styles.subtitle}> </Text>
+            <Text style={styles.subtitle}>{restaurant.time}</Text>
+            <Text style={styles.subtitle}> | </Text>
+            <Text style={styles.subtitle}>{restaurant.distance}</Text>
+          </View>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity>
+              <Icon name="bookmark" color={'red'} size={16} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+        <View style={styles.ratingInfo}>
+          <Icon name="star" color={'white'} size={14} />
+          <Text style={styles.ratingSubtitle}> {restaurant.ratings}</Text>
         </View>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity>
-            <Icon name="bookmark" color={'red'} size={16} />
-          </TouchableOpacity>
+        <View style={styles.resturantInfo}>
+          <View style={styles.resturantInfo2}>
+            <Text style={styles.title}>{restaurant.title}</Text>
+            <Text style={styles.description}>{restaurant.description}</Text>
+          </View>
+          <Divider />
+          <Text style={styles.offer}>{restaurant.offer}</Text>
         </View>
-      </ImageBackground>
-      {/* </ImageBackground> */}
-      <View style={styles.ratingInfo}>
-        <Icon name="star" color={'white'} size={14} />
-        <Text style={styles.ratingSubtitle}> {restaurant.ratings}</Text>
       </View>
-      <View style={styles.resturantInfo}>
-        <Text style={styles.title}>{restaurant.title}</Text>
-        <Text style={styles.offer}>{restaurant.offer}</Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   item: {
     flex: 1,
-    width: '100%',
+    width: '90%',
     backgroundColor: '#1c2833',
     marginVertical: 10,
     borderRadius: 10,
     paddingBottom: 10,
-    marginHorizontal: 1,
     elevation: 5,
+    alignSelf: 'center',
   },
-  ratingInfo:{
+  ratingInfo: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
     width: 50,
     marginRight: 10,
     borderRadius: 5,
     backgroundColor: 'green',
-    padding:2,
+    padding: 2,
   },
-  ratingSubtitle:{
+  description: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  ratingSubtitle: {
     color: 'white',
   },
   image: {
@@ -141,6 +150,10 @@ const styles = StyleSheet.create({
   },
   resturantInfo: {
     marginLeft: 10,
+    // marginBottom: 10,
+  },
+  resturantInfo2: {
+    marginBottom: 10,
   },
   title: {
     fontSize: 18,
@@ -157,6 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#ff6f61',
     fontWeight: 'bold',
+    marginTop: 5,
   },
   iconContainer: {
     backgroundColor: 'white',
