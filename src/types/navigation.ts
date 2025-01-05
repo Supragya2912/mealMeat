@@ -12,6 +12,7 @@ export type TabParamList = {
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
+  AddAddressScreen: undefined;
   BottomNavigation: NavigatorScreenParams<TabParamList>;
 };
 

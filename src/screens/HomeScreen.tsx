@@ -12,7 +12,10 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {StackNavigationProp, TabRouteProp} from '../types/navigation';
-import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetView,
+  BottomSheetFlatList,
+} from '@gorhom/bottom-sheet';
 import {ANIMATION_CONFIGS} from '@gorhom/bottom-sheet';
 import {ReduceMotion} from 'react-native-reanimated';
 import {Tab} from '@rneui/themed';
@@ -38,6 +41,12 @@ interface Restaurant {
   distance: string;
   description?: string;
   offer: string;
+}
+
+interface SavedAddress {
+  id: number | string;
+  address: string;
+  phone: string;
 }
 
 const restaurantData: Restaurant[] = [
@@ -183,6 +192,51 @@ const restaurantData: Restaurant[] = [
   },
 ];
 
+const savedAddress: SavedAddress[] = [
+  {
+    id: 1,
+    address:
+      'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi',
+    phone: '+91 9876543210',
+  },
+  {
+    id: 2,
+    address:
+      'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi',
+    phone: '+91 9876543210',
+  },
+  {
+    id: 3,
+    address:
+      'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi',
+    phone: '+91 9876543210',
+  },
+  {
+    id: 4,
+    address:
+      'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi',
+    phone: '+91 9876543210',
+  },
+  {
+    id: 5,
+    address:
+      'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi',
+    phone: '+91 9876543210',
+  },
+  {
+    id: 6,
+    address:
+      'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi',
+    phone: '+91 9876543210',
+  },
+];
+
+const SavedAddressHeader = () => (
+  <View>
+    <Text style={styles.restaurantText}>Saved Address</Text>
+  </View>
+);
+
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [state, setState] = useState({
     search: '',
@@ -190,10 +244,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [sheetIndex, setSheetIndex] = useState(-1);
   const [tabIndex, setTabIndex] = useState(0);
-
   const toggleBottomSheet = () => {
     setSheetIndex(prev => (prev === 0 ? -1 : 0));
   };
+  const [showAll, setShowAll] = useState(false);
 
   const getToken = useCallback(async () => {
     const token = await AsyncStorage.getItem('authToken');
@@ -201,6 +255,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       navigation.navigate('Login');
     }
   }, [navigation]);
+
+  const handleShowMore = () => {
+    setShowAll(true);
+  };
 
   const filteredRestaurants = restaurantData.filter(restaurant =>
     restaurant.title.toLowerCase().includes(state.search.toLowerCase()),
@@ -332,32 +390,41 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         <BottomSheetView style={styles.bottomSheetContainer}>
           <View style={styles.titleBottomSheet}>
             <TouchableOpacity
-              onPress={() => bottomSheetRef.current?.close()}
+              onPress={() => {
+                setShowAll(false);
+                bottomSheetRef.current?.close();
+              }}
               style={styles.touchableContainer}>
               <Text style={styles.bottomSheetHeader}>Select your address</Text>
               <Icon name="caret-down" size={25} color="white" />
             </TouchableOpacity>
           </View>
           <View style={styles.divider} />
-          <View>
-            <Text style={styles.restaurantText}>Saved Address</Text>
-          </View>
-          <SavedAddressCard
-            address={
-              'B3, 102, First Floor, Mayur Apartment, Rohini Sector 9, Sector 9, Rohini , Delhi'
-            }
-            phone='+91 9876543210'
-            onEdit={function (): void {
-              throw new Error('Function not implemented.');
-            }}
-            onDelete={function (): void {
-              throw new Error('Function not implemented.');
-            }}
-          />
-          <TouchableOpacity style={styles.addAddress}>
+          <TouchableOpacity style={styles.addAddress} onPress={() => navigation.navigate('AddAddressScreen')}>
             <Text style={styles.bottomSheetText}>+ Add New Address</Text>
           </TouchableOpacity>
         </BottomSheetView>
+        <BottomSheetFlatList
+          data={showAll ? savedAddress : savedAddress.slice(0, 3)}
+          keyExtractor={item => item.id.toString()}
+          ListHeaderComponent={SavedAddressHeader}
+          renderItem={({item}) => (
+            <>
+              <SavedAddressCard address={item.address} phone={item.phone} />
+            </>
+          )}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={
+            showAll ? null : (
+              <TouchableOpacity
+                onPress={handleShowMore}
+                style={styles.showMoreBtn}>
+                <Text style={styles.bottomSheetText}>Show More</Text>
+              </TouchableOpacity>
+            )
+          }
+          contentContainerStyle={styles.flatListContent}
+        />
       </BottomSheet>
     </>
   );
@@ -373,6 +440,10 @@ const styles = StyleSheet.create({
     padding: 25,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+  },
+  flatListContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   starIcon: {
     marginLeft: 10,
@@ -394,6 +465,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 40,
+  },
+  showMoreBtn: {
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#17202a',
+    marginBottom: 10,
+    elevation: 2,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   tab: {
     backgroundColor: '#1c2833',
@@ -438,7 +518,6 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   bottomSheetContainer: {
-    flex: 1,
     backgroundColor: '#1c2833',
     paddingHorizontal: 20,
     paddingTop: 20,

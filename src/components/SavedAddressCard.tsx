@@ -5,15 +5,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 type SavedAddressCardProps = {
   address: string;
   phone: string;
-  onEdit: () => void;
-  onDelete: () => void;
+};
+
+const onEdit = () => {
+  console.log('Edit');
+};
+const onDelete = () => {
+  console.log('Delete');
 };
 
 const SavedAddressCard: React.FC<SavedAddressCardProps> = ({
   phone,
   address,
-  onEdit,
-  onDelete,
 }) => {
   return (
     <View style={styles.container}>
@@ -27,10 +30,10 @@ const SavedAddressCard: React.FC<SavedAddressCardProps> = ({
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={onEdit}>
-          <Icon name="pencil" size={20} color="white" />
+          <Icon name="pencil" size={20} color="red" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={onDelete}>
-          <Icon name="trash" size={20} color="white" />
+          <Icon name="trash" size={20} color="red" />
         </TouchableOpacity>
       </View>
     </View>
@@ -46,7 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
-  phone:{
+  phone: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -60,10 +63,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   button: {
-    backgroundColor: 'red',
+    backgroundColor: 'black',
+    borderColor: 'gray',
     padding: 5,
     borderRadius: 5,
     marginHorizontal: 5,
+    borderWidth: 1,
   },
   buttonText: {
     color: 'white',
