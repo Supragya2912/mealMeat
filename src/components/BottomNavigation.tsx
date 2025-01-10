@@ -40,6 +40,7 @@ const getTabBarIcon = ({ route, focused, size, color }: TabBarIconProps) => {
     return <Icon name={iconName} size={size} color={color} />;
 };
 
+
 const BottomNavigation = () => {
     return (
         <Tab.Navigator

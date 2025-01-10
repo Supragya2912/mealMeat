@@ -6,12 +6,8 @@ import {Icon} from '@rneui/base';
 import {Input} from '@rneui/themed';
 import {ScrollView} from 'react-native-gesture-handler';
 
-type AddAddressScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'AddAddressScreen'
->;
-
-const AddAddressScreen: React.FC<AddAddressScreenProps> = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'AddAddressScreen'>;
+const AddAddressScreen: React.FC<Props> = ({navigation}) => {
   const [state, setState] = useState({
     type: '',
     houseNumber: '',
@@ -56,7 +52,11 @@ const AddAddressScreen: React.FC<AddAddressScreenProps> = () => {
   return (
     <View style={{flex: 1}}>
       <View style={styles.topBar}>
-        <Icon name="arrow-back" size={20} color="white" />
+        <TouchableOpacity
+      onPress={() => navigation.navigate('BottomNavigation', { screen: 'HomeScreen' })}
+        >
+        <Icon name="arrow-back" size={20} color="white" style={styles.backIcon} />
+        </TouchableOpacity>
         <Text style={styles.title}>Enter complete address</Text>
       </View>
       <ScrollView>
@@ -257,6 +257,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#9A2A2A',
   },
+  backIcon:{
+    marginHorizontal: 5,
+  },
   buttonView: {
     position: 'absolute',
     bottom: 0,
@@ -293,7 +296,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    marginHorizontal: 10,
+    marginHorizontal: 15,
   },
   input: {
     backgroundColor: 'black',

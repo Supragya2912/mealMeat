@@ -264,8 +264,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     restaurant.title.toLowerCase().includes(state.search.toLowerCase()),
   );
 
+  const handleAddAddress = () => {
+    navigation.navigate("AddAddressScreen")
+      setTimeout(() => {
+        bottomSheetRef.current?.close();
+      }, 1000);
+  };
+
   useEffect(() => {
     getToken();
+    bottomSheetRef.current?.close();
   }, [getToken]);
 
   return (
@@ -400,7 +408,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.divider} />
-          <TouchableOpacity style={styles.addAddress} onPress={() => navigation.navigate('AddAddressScreen')}>
+          <TouchableOpacity  style={styles.addAddress} onPress={handleAddAddress}>
             <Text style={styles.bottomSheetText}>+ Add New Address</Text>
           </TouchableOpacity>
         </BottomSheetView>
