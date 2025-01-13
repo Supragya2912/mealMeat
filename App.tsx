@@ -8,6 +8,7 @@ import Register from './src/screens/Register';
 import AddAddressScreen from './src/screens/AddAddressScreen';
 import {RootStackParamList} from './src/types/navigation';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import RestaurantDetailsScreen from './src/screens/RestaurantDetailsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,6 +25,7 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="AddAddressScreen" component={AddAddressScreen} />
+          <Stack.Screen name="RestaurantDetailsScreen" component={RestaurantDetailsScreen} />
           <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
         </Stack.Navigator>
       </NavigationContainer>

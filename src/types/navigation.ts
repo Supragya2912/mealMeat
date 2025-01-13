@@ -1,6 +1,7 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Restaurant } from '../interface/RestaurantDetail';
 
 export type TabParamList = {
   HomeScreen: undefined;
@@ -9,10 +10,12 @@ export type TabParamList = {
   Profile: undefined;
 };
 
+
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   AddAddressScreen: undefined;
+  RestaurantDetailsScreen: {restaurant: Restaurant};
   BottomNavigation: NavigatorScreenParams<TabParamList>;
 };
 

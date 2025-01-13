@@ -7,7 +7,6 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  // FlatList,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -22,6 +21,7 @@ import {Tab} from '@rneui/themed';
 import Recommended from '../components/Recommended';
 import RestaurantCard from '../components/RestaurantCard';
 import SavedAddressCard from '../components/SavedAddressCard';
+import {Restaurant} from '../interface/RestaurantDetail';
 
 type HomeScreenProps = {
   navigation: StackNavigationProp;
@@ -31,17 +31,6 @@ const bottomSheetAnimationConfig = {
   ...ANIMATION_CONFIGS,
   reduceMotion: ReduceMotion.Never,
 };
-
-interface Restaurant {
-  id: number;
-  title: string;
-  image: string[];
-  ratings: number;
-  time: string;
-  distance: string;
-  description?: string;
-  offer: string;
-}
 
 interface SavedAddress {
   id: number | string;
@@ -63,6 +52,61 @@ const restaurantData: Restaurant[] = [
     distance: '2.3 km',
     offer: '20% off | Use code: BIRYANI20',
     description: 'Biryani, North Indian, Mughlai, Kebabs',
+    address: 'Hosur Road, Bangalore',
+    category: [
+      {
+        id: 1,
+        title: 'Non Veg',
+      },
+      {
+        id: 2,
+        title: 'Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Spicy',
+      },
+      {
+        id: 5,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Chicken Biryani',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 300,
+        category : [
+          {
+            id: 1,
+            title: 'Non Veg',
+          },
+          {
+            id: 2,
+            title: 'Spicy',
+          },
+        ],
+        ratings: 4.9,
+        description: 'Chicken Biryani with Raita',
+        addOns:[
+          {
+            id: 1,
+            title: 'Extra Chicken',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Raita',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 2,
@@ -77,6 +121,57 @@ const restaurantData: Restaurant[] = [
     distance: '1.5 km',
     offer: '15% off | Use code: PIZZA15',
     description: 'Pizza, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Farmhouse Pizza',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 300,
+        ratings: 4.5,
+        description: 'Farmhouse Pizza with extra cheese',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Cheese',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Toppings',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 3,
@@ -91,6 +186,57 @@ const restaurantData: Restaurant[] = [
     distance: '3.0 km',
     offer: '10% off | Use code: BURGER10',
     description: 'Burgers, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Veg Whopper',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 200,
+        ratings: 4.7,
+        description: 'Veg Whopper with extra cheese',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Cheese',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Fries',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 4,
@@ -105,6 +251,57 @@ const restaurantData: Restaurant[] = [
     distance: '2.0 km',
     offer: '25% off | Use code: SUBWAY25',
     description: 'Sandwiches, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Veg Sub',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 150,
+        ratings: 4.6,
+        description: 'Veg Sub with extra cheese',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Cheese',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Veggies',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 5,
@@ -119,6 +316,57 @@ const restaurantData: Restaurant[] = [
     distance: '1.8 km',
     offer: '20% off | Use code: KFC20',
     description: 'Fried Chicken, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Chicken Bucket',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 350,
+        ratings: 4.8,
+        description: 'Chicken Bucket with extra fries',
+        category: [
+          {
+            id: 1,
+            title: 'Non Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Fries',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Coke',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 6,
@@ -133,6 +381,57 @@ const restaurantData: Restaurant[] = [
     distance: '2.5 km',
     offer: '30% off | Use code: DOMINOS30',
     description: 'Pizza, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Veg Pizza',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 250,
+        ratings: 4.4,
+        description: 'Veg Pizza with extra cheese',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Cheese',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Toppings',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 7,
@@ -147,6 +446,57 @@ const restaurantData: Restaurant[] = [
     distance: '3.2 km',
     offer: '10% off | Use code: TACO10',
     description: 'Mexican, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Veg Taco',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 200,
+        ratings: 4.3,
+        description: 'Veg Taco with extra cheese',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Cheese',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Salsa',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 8,
@@ -161,6 +511,57 @@ const restaurantData: Restaurant[] = [
     distance: '2.8 km',
     offer: '15% off | Use code: MCD15',
     description: 'Burgers, Fast Food, Beverages',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'McAloo Tikki Burger',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 100,
+        ratings: 4.5,
+        description: 'McAloo Tikki Burger with extra cheese',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Cheese',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Fries',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 9,
@@ -175,6 +576,57 @@ const restaurantData: Restaurant[] = [
     distance: '1.2 km',
     offer: '5% off | Use code: STARBUCKS5',
     description: 'Coffee, Beverages, Fast Food',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Cappuccino',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 150,
+        ratings: 4.6,
+        description: 'Cappuccino with extra chocolate',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Chocolate',
+            price: 50,
+          },
+          {
+            id: 2,
+            title: 'Extra Cream',
+            price: 20,
+          },
+        ],
+      },
+    ],
   },
   {
     id: 10,
@@ -189,6 +641,57 @@ const restaurantData: Restaurant[] = [
     distance: '2.1 km',
     offer: '20% off | Use code: DUNKIN20',
     description: 'Donuts, Beverages, Fast Food',
+    address: '',
+    category: [
+      {
+        id: 1,
+        title: 'Veg',
+      },
+      {
+        id: 2,
+        title: 'Non Veg',
+      },
+      {
+        id: 3,
+        title: 'Rated 4+',
+      },
+      {
+        id: 4,
+        title: 'Best Seller',
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        title: 'Chocolate Donut',
+        image: require('../assets/recommended/pasta.jpg'),
+        price: 50,
+        ratings: 4.2,
+        description: 'Chocolate Donut with extra chocolate',
+        category: [
+          {
+            id: 1,
+            title: 'Veg',
+          },
+          {
+            id: 2,
+            title: 'Rated 4+',
+          },
+        ],
+        addOns: [
+          {
+            id: 1,
+            title: 'Extra Chocolate',
+            price: 20,
+          },
+          {
+            id: 2,
+            title: 'Extra Cream',
+            price: 10,
+          },
+        ],
+      },
+    ],
   },
 ];
 
@@ -265,10 +768,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   );
 
   const handleAddAddress = () => {
-    navigation.navigate("AddAddressScreen")
-      setTimeout(() => {
-        bottomSheetRef.current?.close();
-      }, 1000);
+    navigation.navigate('AddAddressScreen');
+    setTimeout(() => {
+      bottomSheetRef.current?.close();
+    }, 1000);
   };
 
   useEffect(() => {
@@ -378,7 +881,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             <View>
               <FlatList
                 data={filteredRestaurants}
-                renderItem={({item}) => <RestaurantCard restaurant={item} />}
+                renderItem={({item}) => (
+                  <RestaurantCard restaurant={item} navigation={navigation} />
+                )}
                 keyExtractor={item => item.id.toString()}
                 showsVerticalScrollIndicator={false}
               />
@@ -408,7 +913,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.divider} />
-          <TouchableOpacity  style={styles.addAddress} onPress={handleAddAddress}>
+          <TouchableOpacity
+            style={styles.addAddress}
+            onPress={handleAddAddress}>
             <Text style={styles.bottomSheetText}>+ Add New Address</Text>
           </TouchableOpacity>
         </BottomSheetView>

@@ -6,23 +6,16 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
-  //   ImageSourcePropType,
 } from 'react-native';
-// import { Image } from 'react-native-reanimated/lib/typescript/Animated';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { StackNavigationProp } from '../types/navigation';
+import { Restaurant } from '../interface/RestaurantDetail';
 
-interface Restaurant {
-  id: number;
-  title: string;
-  ratings: number;
-  time: string;
-  description?: string;
-  distance: string;
-  offer: string;
-}
+
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
+  navigation: StackNavigationProp
 }
 
 const data = [
@@ -77,9 +70,11 @@ const data = [
     image: require('../assets/recommended/desserts.jpg'),
   },
 ];
-const RestaurantCard: React.FC<RestaurantCardProps> = ({restaurant}) => {
+const RestaurantCard: React.FC<RestaurantCardProps> = ({restaurant, navigation}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+    onPress={() => navigation.navigate('RestaurantDetailsScreen', { restaurant })}
+  >
       <View style={styles.item}>
         <ImageBackground source={data[0].image} style={styles.image}>
           <View style={styles.timeBg}>
