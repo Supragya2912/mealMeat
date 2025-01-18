@@ -135,32 +135,28 @@ const RestaurantDetailsScreen: React.FC<Props> = ({route}) => {
           </View>
           <ScrollView>
             <View style={styles.listContent}>
-                <CustomList />
-                <CustomList />
-                <CustomList />
-                <CustomList />
-                <CustomList />
-                <CustomList />
-                <CustomList />
-
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-                      <CustomList />
-
-                      <CustomList />
-                      <CustomList />
-
+              <CustomList data={restaurant}/>
+              {/* <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList />
+              <CustomList /> */}
             </View>
           </ScrollView>
         </BottomSheetView>
@@ -211,12 +207,8 @@ const styles = StyleSheet.create({
     borderColor: '#9A2A2A',
   },
   bottomSheetInnerContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
     zIndex: 1,
     backgroundColor: '#1c2833',
-    height: '27%',
     padding: 4,
   },
   selectedPill: {
@@ -249,8 +241,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginLeft: 5,
   },
-  listContent:{
-    paddingTop: 245,
+  listContent: {
+    backgroundColor: '#1c2833',
+    flex: 1,
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -331,7 +324,6 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     backgroundColor: '#1c2833',
     flex: 1,
-    width: '100%',
   },
   searchInputContainer: {
     flex: 1,

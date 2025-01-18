@@ -1,9 +1,17 @@
-import { Icon } from '@rneui/base';
+import {Icon} from '@rneui/base';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import FoodCard from './FoodCard';
+import { Restaurant } from '../interface/RestaurantDetail';
 
-const CustomList = () => {
+type CustomListProps = {
+    data: Restaurant;
+}
+
+const CustomList:React.FC<CustomListProps> = ({ data }) => {
   const [open, setOpen] = React.useState(false);
+
+  console.log(data,"xx");
 
   const handleOnPress = () => {
     setOpen(!open);
@@ -13,9 +21,18 @@ const CustomList = () => {
     <View style={styles.container}>
       <TouchableOpacity onPress={handleOnPress} style={styles.touchable}>
         <Text style={styles.title}>Custom List</Text>
-        <Icon name="chevron-right" color={"white"} />
+        <Icon name="chevron-right" color={'white'} />
       </TouchableOpacity>
-      {open && <Text style={styles.listContent}>Custom List</Text>}
+      {open && (
+        <>{
+            data.items.map((item:any) => {
+                return (
+                    <FoodCard data={item} key={item.id}/>
+                )
+        }
+        )}
+        </>
+      )}
     </View>
   );
 };
